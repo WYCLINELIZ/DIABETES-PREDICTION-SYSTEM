@@ -2,10 +2,22 @@ import streamlit as st
 import pandas as pd
 from sklearn.impute import SimpleImputer
 
+# Background image CSS
+page_bg_img = '''
+<style>
+body {
+    background-image: url("https://www.yourimageurl.com/TB.jpeg");
+    background-size: cover;
+}
+</style>
+'''
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 # Create the app title
 st.title('Health Diagnosis Prediction App')
 
-# Create input fields for user interaction
+# Input fields for user interaction
 age = st.number_input('Age', min_value=0, max_value=120, value=30)
 sex = st.selectbox('Sex', ['Male', 'Female'])
 weight = st.number_input('Weight (kg)', min_value=0, max_value=200, value=70)
@@ -28,13 +40,12 @@ input_data = pd.DataFrame({
     'Hypertension': [1 if hypertension == 'Yes' else 0],
 })
 
-# Impute missing values if necessary (though not required for user input here)
+# Impute missing values if necessary
 imputer = SimpleImputer(strategy='mean')
 input_data = imputer.fit_transform(input_data)
 
 # Make predictions based on diabetes and hypertension
 if st.button("Predict Outcome"):
-    # Set outcome based on diabetes and hypertension
     if diabetes == 'Yes' and hypertension == 'Yes':
         st.success("Predicted Outcome: **POSITIVE** ")
     elif diabetes == 'No' and hypertension == 'No':
